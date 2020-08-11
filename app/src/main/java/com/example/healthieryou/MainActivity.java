@@ -14,9 +14,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     SensorManager sensorManager;
     Sensor accelerometer;
-    TextView tv_AccelerometerX;
-    TextView tv_AccelerometerY;
-    TextView tv_AccelerometerZ;
+    TextView tv_AccelerometerX, tv_AccelerometerY, tv_AccelerometerZ, highestX, highestY, lowestX, lowestY, tv_steps, tv_lastX, tv_lastY;
+    float highestXValue = 0;
+    float lowestXValue = 0;
+    float highestYValue = 0;
+    float lowestYValue = 0;
+    float lastXValue = 0;
+    float lastYValue = 0;
+    float steps = 0;
 
 
     @Override
@@ -29,7 +34,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         tv_AccelerometerX = findViewById(R.id.tv_AccelerometerX);
         tv_AccelerometerY = findViewById(R.id.tv_AccelerometerY);
         tv_AccelerometerZ = findViewById(R.id.tv_AccelerometerZ);
-
+        highestX = findViewById(R.id.highestX);
+        highestY = findViewById(R.id.highestY);
+        lowestY = findViewById(R.id.lowestY);
+        lowestX = findViewById(R.id.lowestX);
+        tv_steps = findViewById(R.id.tv_steps);
+        tv_lastX = findViewById(R.id.tv_lastX);
+        tv_lastY = findViewById(R.id.tv_lastY);
     }
 
     @Override
@@ -37,6 +48,33 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         tv_AccelerometerX.setText(String.valueOf(sensorEvent.values[0]));
         tv_AccelerometerY.setText(String.valueOf(sensorEvent.values[1]));
         tv_AccelerometerZ.setText(String.valueOf(sensorEvent.values[2]));
+        if(sensorEvent.values[0] > highestXValue){
+            highestXValue = sensorEvent.values[0];
+            highestX.setText(String.valueOf(sensorEvent.values[0]));
+        }
+        if(sensorEvent.values[0] < lowestXValue){
+            lowestXValue = sensorEvent.values[0];
+            lowestX.setText(String.valueOf(sensorEvent.values[0]));
+        }
+        if(sensorEvent.values[1] > highestYValue){
+            highestYValue = sensorEvent.values[1];
+            highestY.setText(String.valueOf(sensorEvent.values[1]));
+        }
+        if(sensorEvent.values[1] < lowestYValue){
+            lowestYValue = sensorEvent.values[1];
+            lowestY.setText(String.valueOf(sensorEvent.values[1]));
+        }
+        if(lastYValue != 0 && lastXValue != 0) {
+            if ((sensorEvent.values[0] + 10.0 > lastXValue || sensorEvent.values[0] - 0.002 < lastXValue) && (sensorEvent.values[1] + 2.0 > lastYValue || sensorEvent.values[1] - 0.0002 < lastYValue)) {
+                steps++;
+                tv_steps.setText(String.valueOf(steps));
+            }
+        }
+        lastXValue = sensorEvent.values[0];
+        lastYValue = sensorEvent.values[1];
+        tv_lastY.setText(String.valueOf(lastYValue));
+        tv_lastX.setText(String.valueOf(lastXValue));
+
     }
 
     @Override
@@ -47,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
