@@ -2,23 +2,25 @@ package com.example.healthieryou;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     SensorManager sensorManager;
     Sensor accelerometer;
-    TextView tv_AccelerometerX, tv_AccelerometerY, tv_AccelerometerZ, highestX, highestY, lowestX, lowestY, tv_steps, tv_lastX, tv_lastY;
-    float highestXValue = 0;
-    float lowestXValue = 0;
-    float highestYValue = 0;
-    float lowestYValue = 0;
+    ImageView ivLogo;
     float lastXValue = 0;
     float lastYValue = 0;
     float steps = 0;
@@ -31,50 +33,53 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        tv_AccelerometerX = findViewById(R.id.tv_AccelerometerX);
-        tv_AccelerometerY = findViewById(R.id.tv_AccelerometerY);
-        tv_AccelerometerZ = findViewById(R.id.tv_AccelerometerZ);
-        highestX = findViewById(R.id.highestX);
-        highestY = findViewById(R.id.highestY);
-        lowestY = findViewById(R.id.lowestY);
-        lowestX = findViewById(R.id.lowestX);
-        tv_steps = findViewById(R.id.tv_steps);
-        tv_lastX = findViewById(R.id.tv_lastX);
-        tv_lastY = findViewById(R.id.tv_lastY);
+        ivLogo = findViewById(R.id.ivLogo);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ObjectAnimator rotationAnimation = ObjectAnimator.ofFloat(ivLogo, "rotation", 0F, 360F);
+        rotationAnimation.setDuration(1500);
+        rotationAnimation.start();
+        ObjectAnimator scaleXAnimation = ObjectAnimator.ofFloat(ivLogo, "scaleX", 1F, 1.5F, 1F);
+        scaleXAnimation.setDuration(1500);
+        scaleXAnimation.start();
+        ObjectAnimator scaleYAnimation = ObjectAnimator.ofFloat(ivLogo, "scaleY", 1F, 1.5F, 1F);
+        scaleYAnimation.setDuration(1500);
+        scaleYAnimation.start();
+        AnimatorListener animationListener = new AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                //Intent intent = new Intent(this, StartActivity.class);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        };
     }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        tv_AccelerometerX.setText(String.valueOf(sensorEvent.values[0]));
-        tv_AccelerometerY.setText(String.valueOf(sensorEvent.values[1]));
-        tv_AccelerometerZ.setText(String.valueOf(sensorEvent.values[2]));
-        if(sensorEvent.values[0] > highestXValue){
-            highestXValue = sensorEvent.values[0];
-            highestX.setText(String.valueOf(sensorEvent.values[0]));
-        }
-        if(sensorEvent.values[0] < lowestXValue){
-            lowestXValue = sensorEvent.values[0];
-            lowestX.setText(String.valueOf(sensorEvent.values[0]));
-        }
-        if(sensorEvent.values[1] > highestYValue){
-            highestYValue = sensorEvent.values[1];
-            highestY.setText(String.valueOf(sensorEvent.values[1]));
-        }
-        if(sensorEvent.values[1] < lowestYValue){
-            lowestYValue = sensorEvent.values[1];
-            lowestY.setText(String.valueOf(sensorEvent.values[1]));
-        }
         if(lastYValue != 0 && lastXValue != 0) {
             if ((sensorEvent.values[0]  > lastXValue + 2.0 || sensorEvent.values[0] < lastXValue - 2.0 ) && (sensorEvent.values[1]  > lastYValue + 2.0 || sensorEvent.values[1] < lastYValue - 2.0)) {
                 steps += 0.3333333333333f;
-                tv_steps.setText(String.valueOf(Math.round(steps)));
             }
         }
         lastXValue = sensorEvent.values[0];
         lastYValue = sensorEvent.values[1];
-        tv_lastY.setText(String.valueOf(lastYValue));
-        tv_lastX.setText(String.valueOf(lastXValue));
-
     }
 
     @Override
