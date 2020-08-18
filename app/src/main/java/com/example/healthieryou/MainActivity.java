@@ -65,9 +65,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             lowestY.setText(String.valueOf(sensorEvent.values[1]));
         }
         if(lastYValue != 0 && lastXValue != 0) {
-            if ((sensorEvent.values[0] + 10.0 > lastXValue || sensorEvent.values[0] - 0.002 < lastXValue) && (sensorEvent.values[1] + 2.0 > lastYValue || sensorEvent.values[1] - 0.0002 < lastYValue)) {
-                steps++;
-                tv_steps.setText(String.valueOf(steps));
+            if ((sensorEvent.values[0]  > lastXValue + 2.0 || sensorEvent.values[0] < lastXValue - 2.0 ) && (sensorEvent.values[1]  > lastYValue + 2.0 || sensorEvent.values[1] < lastYValue - 2.0)) {
+                steps += 0.3333333333333f;
+                tv_steps.setText(String.valueOf(Math.round(steps)));
             }
         }
         lastXValue = sensorEvent.values[0];
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, accelerometer, 2147483646);
     }
 
     @Override
