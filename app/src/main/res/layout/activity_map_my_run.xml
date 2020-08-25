@@ -7,7 +7,7 @@
     tools:context=".MapMyRunActivity">
 
     <Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbarmap"
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
