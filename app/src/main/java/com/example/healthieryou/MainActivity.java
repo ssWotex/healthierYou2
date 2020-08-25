@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     float lastYValue = 0;
     float steps = 0;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +40,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onStart();
         ObjectAnimator rotationAnimation = ObjectAnimator.ofFloat(ivLogo, "rotation", 0F, 360F);
         rotationAnimation.setDuration(1500);
-        rotationAnimation.start();
         ObjectAnimator scaleXAnimation = ObjectAnimator.ofFloat(ivLogo, "scaleX", 1F, 1.5F, 1F);
         scaleXAnimation.setDuration(1500);
-        scaleXAnimation.start();
         ObjectAnimator scaleYAnimation = ObjectAnimator.ofFloat(ivLogo, "scaleY", 1F, 1.5F, 1F);
         scaleYAnimation.setDuration(1500);
-        scaleYAnimation.start();
         AnimatorListener animationListener = new AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -56,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                //Intent intent = new Intent(this, StartActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -69,6 +66,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             }
         };
+        rotationAnimation.addListener(animationListener);
+        rotationAnimation.start();
+        scaleXAnimation.start();
+        scaleYAnimation.start();
     }
 
     @Override
