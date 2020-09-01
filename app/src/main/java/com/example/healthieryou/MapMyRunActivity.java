@@ -36,6 +36,7 @@ public class MapMyRunActivity extends AppCompatActivity implements LocationListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_my_run);
+        SugarContext.init(this);
         btnStart = findViewById(R.id.btn_Start);
         tv_lol = findViewById(R.id.tv_lol);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
