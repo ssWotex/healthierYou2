@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+
 public class MenuActivity extends AppCompatActivity {
     Button btnSprint;
     Button btnRun;
@@ -43,7 +46,6 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
 
