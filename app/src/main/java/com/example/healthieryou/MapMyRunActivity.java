@@ -18,8 +18,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.orm.SugarContext;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Map;
 
@@ -27,8 +31,11 @@ public class MapMyRunActivity extends AppCompatActivity implements LocationListe
 
     Button btnStart;
     TextView tv_lol;
-    Coordinates coordinates;
-    SupportMapFragment mapFragment;
+    double firstLocationLatitude;
+    double firstLocationLongitude;
+
+    double endLocationLatitude;
+    double endLocationLongitude;
 
     LocationManager locationManager;
 
@@ -36,7 +43,6 @@ public class MapMyRunActivity extends AppCompatActivity implements LocationListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_my_run);
-        SugarContext.init(this);
         btnStart = findViewById(R.id.btn_Start);
         tv_lol = findViewById(R.id.tv_lol);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -51,10 +57,10 @@ public class MapMyRunActivity extends AppCompatActivity implements LocationListe
                         ActivityCompat.requestPermissions(MapMyRunActivity.this, new String[]{Manifest.permission.INTERNET}, 101);
                         System.out.println("permission granted");
                     }
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, MapMyRunActivity.this);
-                    tv_lol.setText("Longitude: "+String.valueOf(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude()));
-                    coordinates = new Coordinates(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude(),locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude(), System.currentTimeMillis());
-                    coordinates.save();
+                    firstLocationLatitude = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude();
+                    firstLocationLongitude = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude();
+                    System.out.println("Lat:"+ firstLocationLatitude + ", Long: " + firstLocationLongitude);
+                    MapsFragment.mapFragment.getMapAsync(startCallback);
                 }
                 else{
                     btnStart.setText("Start");
@@ -65,11 +71,10 @@ public class MapMyRunActivity extends AppCompatActivity implements LocationListe
                         System.out.println("permission granted");
                     }
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, MapMyRunActivity.this);
-                    tv_lol.setText("Longitude: "+String.valueOf(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude()));
-                    coordinates = Coordinates.listAll(Coordinates.class).get(0);
-                    coordinates.setEndTime(System.currentTimeMillis());
-                    coordinates.setLatitudeEnd(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude());
-                    coordinates.setLongitudeEnd(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude());
+                    endLocationLatitude = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude();
+                    endLocationLongitude = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude();
+                    System.out.println("Lat:"+ endLocationLatitude + ", Long: " + endLocationLongitude);
+                    MapsFragment.mapFragment.getMapAsync(endCallback);
                 }
             }
         });
@@ -77,19 +82,6 @@ public class MapMyRunActivity extends AppCompatActivity implements LocationListe
 
     @Override
     public void onLocationChanged(Location location) {
-        tv_lol.setText("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        String lol = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).toString();
-        System.out.println("WAAAAAAARNIIIIIIIING" + lol);
     }
 
     @Override
@@ -106,4 +98,22 @@ public class MapMyRunActivity extends AppCompatActivity implements LocationListe
     public void onProviderDisabled(String provider) {
 
     }
+
+    private OnMapReadyCallback startCallback = new OnMapReadyCallback() {
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            LatLng firstPosition = new LatLng(firstLocationLatitude, firstLocationLongitude);
+            googleMap.addMarker(new MarkerOptions().position(firstPosition).title("Marker in Sydney"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(firstPosition));
+        }
+    };
+
+    private OnMapReadyCallback endCallback = new OnMapReadyCallback() {
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            LatLng endPosition = new LatLng(endLocationLatitude, endLocationLongitude);
+            googleMap.addMarker(new MarkerOptions().position(endPosition).title("Marker in Sydney"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(endPosition));
+        }
+    };
 }

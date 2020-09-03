@@ -16,8 +16,6 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.orm.SugarContext;
-
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     SensorManager sensorManager;
@@ -72,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         rotationAnimation.start();
         scaleXAnimation.start();
         scaleYAnimation.start();
-        SugarContext.init(this);
     }
 
     @Override

@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsFragment extends Fragment {
 
-    SupportMapFragment mapFragment;
+    static SupportMapFragment mapFragment = new SupportMapFragment();
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -53,7 +53,7 @@ public class MapsFragment extends Fragment {
         mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
-            mapFragment.getMapAsync(callback);
+            mapFragment.getMapAsync(callbackDone);
         }
     }
 
