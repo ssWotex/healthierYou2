@@ -6,19 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".MapMyRunActivity">
 
+    <Button
+        android:id="@+id/btnBack2"
+        android:layout_width="226dp"
+        android:layout_height="wrap_content"
+        android:text="Zurück zum Hauptmenü" />
+
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="281dp"
+        android:layout_height="493dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="80dp"
         android:layout_marginRight="40dp"
-        android:layout_marginBottom="152dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_lol"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.352"
         tools:context=".MapsFragment"
         tools:layout="@layout/fragment_maps" />
 
@@ -26,22 +31,11 @@
         android:id="@+id/btnLocation"
         android:layout_width="120dp"
         android:layout_height="70dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="28dp"
         android:text="Start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/map" />
-
-    <TextView
-        android:id="@+id/tv_lol"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginBottom="29dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/btn_Start"
         app:layout_constraintTop_toBottomOf="@+id/map" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

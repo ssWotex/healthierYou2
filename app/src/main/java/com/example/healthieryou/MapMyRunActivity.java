@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -31,6 +32,7 @@ public class MapMyRunActivity extends AppCompatActivity implements LocationListe
     double endLocationLatitude = 0;
     double endLocationLongitude = 0;
 
+    Button btnBack;
     Button btnLocation;
     TextView textView;
     LocationManager locationManager;
@@ -49,11 +51,19 @@ public class MapMyRunActivity extends AppCompatActivity implements LocationListe
             System.out.println("permission granted");
         }
 
-        textView = findViewById(R.id.tv_lol);
+        btnBack = findViewById(R.id.btnBack2);
 
         locationManager = (LocationManager) this.getApplicationContext().getSystemService(LOCATION_SERVICE);
         fragmentManager = getSupportFragmentManager();
         mapFragment = (SupportMapFragment) fragmentManager.findFragmentById(R.id.map);
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btnLocation = findViewById(R.id.btnLocation);
         btnLocation.setOnClickListener(new View.OnClickListener() {
