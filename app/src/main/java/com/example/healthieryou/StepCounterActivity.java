@@ -44,7 +44,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         btnGoal = findViewById(R.id.btnGoal);
-        btnGoal = findViewById(R.id.btnBack3);
+        btnBack = findViewById(R.id.btnBack3);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override

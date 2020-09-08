@@ -39,7 +39,7 @@
     <Button
         android:id="@+id/btnGoal"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="192dp"
         android:text="Ziel setzen"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -50,7 +50,7 @@
     <EditText
         android:id="@+id/nbGoal"
         android:layout_width="133dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="192dp"
         android:ems="10"
         android:inputType="number"
