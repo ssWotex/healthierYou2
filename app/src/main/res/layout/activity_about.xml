@@ -11,7 +11,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="0"
+        android:layout_margin="0dp"
         android:gravity="center"
         android:text="Developer: Kol Daka und Doriano Di Pierro Business-Email: healthierYou@outlook.ch"
         android:textSize="18sp"
