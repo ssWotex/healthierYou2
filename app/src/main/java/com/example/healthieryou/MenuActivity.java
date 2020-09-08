@@ -15,6 +15,7 @@ public class MenuActivity extends AppCompatActivity {
     Button btnSprint;
     Button btnRun;
     Button btnStep;
+    Button btnAbout;
 
 
     @Override
@@ -24,6 +25,7 @@ public class MenuActivity extends AppCompatActivity {
         btnSprint = findViewById(R.id.btnSprint);
         btnRun = findViewById(R.id.btnRun);
         btnStep = findViewById(R.id.btnStep);
+        btnAbout = findViewById(R.id.btnAbout);
 
         btnSprint.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +48,16 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MenuActivity.this, AboutActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
 

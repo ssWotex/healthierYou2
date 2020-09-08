@@ -61,7 +61,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/btnAbout"
             android:layout_width="33dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
